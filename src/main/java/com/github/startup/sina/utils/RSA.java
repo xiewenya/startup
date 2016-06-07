@@ -1,5 +1,7 @@
 package com.github.startup.sina.utils;
 
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -11,7 +13,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  *
  * <p>RSA签名,加解密处理核心文件，注意：密钥长度1024</p>

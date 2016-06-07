@@ -68,6 +68,9 @@ public abstract class BaseSerializer<M extends BaseModel, I extends BaseMixin> {
         validator = factory.getValidator();
     }
 
+    public BaseSerializer() {
+    }
+
     public BaseSerializer(M instance, String data) {
         this.data = data;
         this.validatingModelInstance = instance;

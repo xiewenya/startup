@@ -1,6 +1,6 @@
 package com.github.startup.sina.model.response;
 
-import baojinsuo.sina.model.BaseSinaModel;
+import com.github.startup.sina.model.BaseSinaModel;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,11 +41,17 @@ public class BaseResponseModel extends BaseSinaModel {
         return response_message;
     }
 
-    /**
-     * Created by bresai on 16/5/31.
-     */
-    public static class CreateActivateMemberResponseModel extends BaseResponseModel {
-        public CreateActivateMemberResponseModel() {
-        }
+    public BaseResponseModel() {
+        super();
+    }
+
+    @Override
+    public String toString() {
+        return "BaseResponseModel{" +
+                "partner_id='" + partner_id + '\'' +
+                ", response_time='" + response_time + '\'' +
+                ", response_code='" + response_code + '\'' +
+                ", response_message='" + response_message + '\'' +
+                '}';
     }
 }

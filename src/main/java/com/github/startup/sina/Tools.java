@@ -50,8 +50,10 @@ public class Tools {
 				}
 			}
 			if (isFilter) {
-				if (!key.equals("sign") && !key.equals("sign_type")
-						&& !key.equals("sign_version")) {
+				if (!key.equals("sign")
+						&& !key.equals("sign_type")
+						&& !key.equals("sign_version")
+						) {
 					if (i == keys.size() - 1) {
 						prestr = prestr + key + "=" + value;
 					} else {

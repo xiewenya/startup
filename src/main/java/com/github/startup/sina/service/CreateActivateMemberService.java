@@ -1,51 +1,43 @@
 package com.github.startup.sina.service;
 
-import baojinsuo.sina.SinaHelper;
-import baojinsuo.sina.model.request.CreateActivateMemberRequestModel;
-import baojinsuo.sina.model.response.BaseResponseModel;
-import baojinsuo.sina.utils.CallServiceUtil;
-import baojinsuo.systemconfig.SystemProperties;
-import org.apache.commons.collections.BeanMap;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import java.net.URLDecoder;
-import java.util.Map;
+import com.github.startup.sina.model.request.CreateActivateMemberRequestModel;
+import com.github.startup.sina.model.response.CreateActivateMemberResponseModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * Created by bresai on 16/5/31.
+ * Created by bresai on 16/6/2.
  */
-public class CreateActivateMemberService {
-    private Logger log = Logger.getLogger(SinaHelper.class);
+@Service
+public class CreateActivateMemberService
+        extends MemberService<CreateActivateMemberRequestModel,
+        CreateActivateMemberResponseModel>{
 
-    private static String Sinapay_mas_gateway = SystemProperties.get("sinapay_mas_gateway");
-    private static String Sina_encryptkey = SystemProperties.get("sina_encryptkey");
-    private static String Sinapay_mgs_gateway = SystemProperties.get("sinapay_mgs_gateway");
+    private CreateActivateMemberRequestModel request;
 
-    private Map modelToMap(Object myBean){
-        return new BeanMap(myBean);
+    private CreateActivateMemberResponseModel response;
+
+    @Autowired
+    public void setRequest(CreateActivateMemberRequestModel request) {
+        this.request = request;
     }
 
-    public BaseResponseModel.CreateActivateMemberResponseModel create_activate_member(String identity_id, String identity_type, String member_type,
-                                                                                      String extend_param) {
-        CreateActivateMemberRequestModel createActivateMemberRequestModel =
-                new CreateActivateMemberRequestModel(
-                        identity_id,
-                        identity_type,
-                        member_type,
-                        extend_param
-                );
-        try {
-            String content = createActivateMemberRequestModel.setSign(modelToMap(createActivateMemberRequestModel));
-            String result = URLDecoder.decode(
-                    CallServiceUtil.sendPost(Sinapay_mgs_gateway, content),
-                    createActivateMemberRequestModel.get_input_charset());
-            log.info("Sina Response:" + result);
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(result, BaseResponseModel.CreateActivateMemberResponseModel.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public CreateActivateMemberRequestModel getRequest() {
+        return request;
     }
+
+    public CreateActivateMemberResponseModel getResponse() {
+        return response;
+    }
+
+    @Autowired
+    public void setResponse(CreateActivateMemberResponseModel response) {
+        this.response = response;
+    }
+
+    //    @Autowired
+//    public CreateActivateMemberRequestModel setMember_type(MemberRequestModel.Builder builder, String member_type) {
+//        return (CreateActivateMemberRequestModel) builder.extend_param(member_type).build();
+//    }
+
 }

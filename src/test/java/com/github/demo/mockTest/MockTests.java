@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -30,7 +32,6 @@ public class MockTests extends StartUpApplicationTest {
         user.setActive(true);
         user.setAddress("12312312");
         user.setCreated(new Date());
-        user.setState();
 
         MockitoAnnotations.initMocks(this);
         repository = Mockito.mock(UserRepository.class);

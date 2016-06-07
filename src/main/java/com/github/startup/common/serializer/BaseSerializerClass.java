@@ -20,7 +20,6 @@ import java.io.IOException;
 public abstract class BaseSerializerClass<T extends BaseModel> extends JsonSerializer<T> {
 
     @Override
-    @SuppressWarnings("unchecked")
     public void serialize(T item, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
             throws IOException {
         jsonGenerator.writeStartObject();
@@ -28,8 +27,8 @@ public abstract class BaseSerializerClass<T extends BaseModel> extends JsonSeria
         //normal serializers of the item object;
         JavaType javaType = serializerProvider.constructType(item.getClass());
         BeanDescription beanDesc = serializerProvider.getConfig().introspect(javaType);
-        JsonSerializer<T> serializer =
-                (JsonSerializer<T>) BeanSerializerFactory.instance.findBeanSerializer(serializerProvider,
+        JsonSerializer<Object> serializer =
+                (JsonSerializer<Object>) BeanSerializerFactory.instance.findBeanSerializer(serializerProvider,
                 javaType,
                 beanDesc);
         // this is basically your 'writeAllFields()'-method:

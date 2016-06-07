@@ -1,11 +1,10 @@
 package com.github.startup.sina.model.request;
 
-import baojinsuo.sina.model.BaseSinaModel;
-import baojinsuo.sina.utils.SinaConsts;
-import baojinsuo.systemconfig.SystemProperties;
-import baojinsuo.utils.SafeUtils;
+import com.github.startup.sina.model.BaseSinaModel;
+import com.github.startup.sina.utils.SafeUtils;
+import com.github.startup.sina.utils.SinaConsts;
+import com.github.startup.systemconfig.SystemProperties;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,8 +18,8 @@ public class BaseRequestModel extends BaseSinaModel {
     private String service;
 
     @NotNull
-    @Max(99999)
-    private Number version;
+    @Size(max = 5)
+    private String version;
 
     @NotNull
     @Size(max = 32)
@@ -30,8 +29,8 @@ public class BaseRequestModel extends BaseSinaModel {
     @Size(max = 14)
     private String request_time;
 
-    @Max(99999)
-    private Number encrypt_version;
+    @Size(max = 5)
+    private String encrypt_version;
 
     @Size(max = 200)
     private String notify_url;
@@ -39,23 +38,25 @@ public class BaseRequestModel extends BaseSinaModel {
     @Size(max = 200)
     private String return_url;
 
-    public BaseRequestModel(@NotNull String service) {
+    BaseRequestModel() {
         super();
-        this.service = service;
         this.version = SinaConsts.VERSION;
         this.partner_id = SystemProperties.get("sinapay_partner_id");
         this.encrypt_version = SinaConsts.ENCRYPT_VERSION;
         this.request_time = SafeUtils.getCurrentTimeStr("yyyyMMddHHmmss");
         this.notify_url = SystemProperties.get("sinapay_callbackurl");
         this.return_url= SystemProperties.get("sinapay_returnurl");
-
     }
 
     public String getService() {
         return service;
     }
 
-    public Number getVersion() {
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getVersion() {
         return version;
     }
 
@@ -67,7 +68,7 @@ public class BaseRequestModel extends BaseSinaModel {
         return request_time;
     }
 
-    public Number getEncrypt_version() {
+    public String getEncrypt_version() {
         return encrypt_version;
     }
 
