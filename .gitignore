@@ -64,3 +64,4 @@ hs_err_pid*
 /mvnw.cmd
 /StartUpFramework.iml
 /target/
+/.idea/workspace.xml
