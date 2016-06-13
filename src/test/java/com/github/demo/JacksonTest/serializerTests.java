@@ -125,6 +125,7 @@ public class serializerTests extends StartUpApplicationTest {
 
         assertEquals(2, constraintViolations.size());
     }
+
 //
 //    @Test(expected = IllegalArgumentException.class)
 //    public void jacksonSerializerNotNullValidationTest() throws JsonProcessingException {
