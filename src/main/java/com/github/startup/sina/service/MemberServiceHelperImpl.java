@@ -5,12 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.startup.common.utils.ReflectUtils;
 import com.github.startup.sina.Tools;
 import com.github.startup.sina.model.request.BaseRequestModel;
-import com.github.startup.sina.model.response.BaseResponseModel;
 import com.github.startup.systemconfig.SystemProperties;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,26 +20,21 @@ import java.util.Map;
 /**
  * Created by bresai on 16/5/31.
  */
-
-@Service
-public class MemberService<
-        T extends BaseRequestModel,
-        M extends BaseResponseModel> {
-    private Logger log = Logger.getLogger(MemberService.class);
+@Component
+public class MemberServiceHelperImpl {
+    private Logger log = Logger.getLogger(MemberServiceHelperImpl.class);
     private final ObjectMapper mapper;
     private final RestTemplate restTemplate;
     private static String Sinapay_mas_gateway = SystemProperties.get("sinapay_mas_gateway");
     private static String Sina_encryptkey = SystemProperties.get("sina_encryptkey");
     private static String Sinapay_mgs_gateway = SystemProperties.get("sinapay_mgs_gateway");
 
-    //
 //    private T request;
-
     private Map modelToMap(Object myBean){
         return mapper.convertValue(myBean,Map.class);
     }
 
-    public MemberService() {
+    public MemberServiceHelperImpl() {
         restTemplate = new RestTemplate();
         mapper = new ObjectMapper();
 //        mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
@@ -66,7 +60,7 @@ public class MemberService<
 //        model.setMember_type(member_type);
 //    }
 
-    public String sendRequest(T request){
+    public String sendRequest(BaseRequestModel request){
         try {
             request.generateSign(modelToMap(request));
             Map map = modelToMap(request);
@@ -76,6 +70,9 @@ public class MemberService<
             if (responseCode.is2xxSuccessful()){
                 log.info("Sina Response:" + result);
                 return URLDecoder.decode(result.getBody());
+            }
+            else {
+
             }
 
         }
@@ -90,7 +87,7 @@ public class MemberService<
         return null;
     }
 
-    public M getResult(String result) throws IOException {
+    public <T> T getResult(String result) throws IOException {
         //ignore undefined properties in json
         if (result == null) return null;
         return mapper.readValue(result,

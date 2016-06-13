@@ -1,7 +1,5 @@
 package com.github.startup.sina.controller;
 
-import com.github.startup.sina.service.CreateActivateMemberService;
-
 /**
  * Created by bresai on 16/6/2.
  */
